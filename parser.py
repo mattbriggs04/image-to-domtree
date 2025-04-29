@@ -11,7 +11,7 @@ class DOMNode:
     def __str__(self):
         s = f"({self.id} {self.layout_dir} {self.margin:.2f}"
         for child in self.children:
-            s += " " + str(child) # recursive call
+            s += " " + str(child) # recursion baby
         s += ")"
         return s
 
@@ -23,6 +23,7 @@ def build_dom_tree(img):
     odd_id = 1
     even_id = 0
 
+    # vertically stack a number of nodes = height of pixels and horizontally stack number of nodes = width of pixels
     root = DOMNode(even_id, 'vert', 0.0)
     even_id += 2
     for y in range(height):
@@ -39,6 +40,7 @@ def build_dom_tree(img):
                 node_id = even_id
                 even_id += 2
 
+            # this does not work for concatening nodes together for obvious reasons (layout does not know where to place gap)
             # while x < width and (pxcol_map[x, y] < black_threshold) == is_black:
             #     x += 1
             
@@ -55,7 +57,7 @@ def build_dom_tree(img):
 def main():
     # parse args
     if len(sys.argv) != 3:
-        print("Usage: python3 parser.py <bmp-file> <out-file>")
+        print("Usage: python3 parser.py <bmpfile> <outfile>")
         sys.exit(1)
     path, outfilename = sys.argv[1], str(sys.argv[2])
 
