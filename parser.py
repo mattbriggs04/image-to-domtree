@@ -39,10 +39,10 @@ def build_dom_tree(img):
                 node_id = even_id
                 even_id += 2
 
-            # continually add to rectangle until different color is met
-            while x < width and (pxcol_map[x, y] < black_threshold) == is_black:
-                x += 1
-
+            # while x < width and (pxcol_map[x, y] < black_threshold) == is_black:
+            #     x += 1
+            
+            x += 1
             pixel_node = DOMNode(node_id, 'none', 0.0)
             
             row_node.children.append(pixel_node)
@@ -54,21 +54,17 @@ def build_dom_tree(img):
 
 def main():
     # parse args
-    if len(sys.argv) != 4:
-        print("Usage: python parser.py <bmp-file> <width> <height>")
+    if len(sys.argv) != 3:
+        print("Usage: python3 parser.py <bmp-file> <out-file>")
         sys.exit(1)
-    path, exp_w, exp_h = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+    path, outfilename = sys.argv[1], str(sys.argv[2])
 
     # load and convert to grayscale
     img = Image.open(path).convert('L')
 
-    # ensure dimensions match
-    if img.size != (exp_w, exp_h):
-        print(f"Image size mismatch {img.size} != {exp_w,exp_h}")
-
     # build tree and print out 
     tree = build_dom_tree(img)
-    with open("qr_code.txt", "w") as f:
+    with open(outfilename, "w") as f:
         f.write(str(tree))
 
 if __name__ == '__main__':
