@@ -1,6 +1,9 @@
 from PIL import Image
 import sys
 
+# The number of discrete possible colors in the range [0, 255]
+# For example, if the range is 8, these colors are:
+NUM_DISCRETE_COLORS=8 
 class DOMNode:
     def __init__(self, id, layout_dir, margin=0.0):
         self.id = id
@@ -15,20 +18,15 @@ class DOMNode:
         s += ")"
         return s
 
-def build_color_map():
-    cols = []
-    for col in range(8):
-        cols.append(round(col * 255 / 7))
-    return cols
-
-def nearest_idx(col):
-    return round(col * 7 / 255)
-
 def color_to_id(r, g, b):
+
+    def nearest_idx(col):
+        return round(col * (NUM_DISCRETE_COLORS-1) / 255)
+    
     r_id = nearest_idx(r)
     g_id = nearest_idx(g)
     b_id = nearest_idx(b)
-    return b_id * 64 + g_id * 8 + r_id
+    return b_id * (NUM_DISCRETE_COLORS ** 2) + g_id * NUM_DISCRETE_COLORS + r_id
 
 def build_dom_tree(img):
     width, height = img.size
