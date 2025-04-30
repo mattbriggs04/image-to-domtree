@@ -4,7 +4,7 @@ import sys
 
 # The number of discrete possible colors in the range [0, 255]
 # For example, if the range is 4, the colors would be [0, 85, 170, 255]
-NUM_DISCRETE_COLORS=8 
+NUM_DISCRETE_COLORS=8
 
 class DOMNode:
     def __init__(self, id, layout_dir, margin=0.0):
@@ -14,7 +14,8 @@ class DOMNode:
         self.children = []
 
     def __str__(self):
-        s = f"({self.id} {self.layout_dir} {self.margin:.2f}"
+        # margin should always be 0, .0f is used in order to save the 3 bytes from the ".00" (optimuhzationzz)
+        s = f"({self.id} {self.layout_dir} {self.margin:.0f}" 
         for child in self.children:
             s += " " + str(child) # recursion baby
         s += ")"
@@ -61,7 +62,7 @@ def main():
         sys.exit(1)
     
     if len(sys.argv) == 4:
-        # "but convention is that uppercase is constant" -- shush, it's python and idc
+        # "but convention is that uppercase is constant" -- it's python and idc
         global NUM_DISCRETE_COLORS
         NUM_DISCRETE_COLORS=int(sys.argv[3])
         print(f"Generating color file with {NUM_DISCRETE_COLORS ** 3} colors")
