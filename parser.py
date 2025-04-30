@@ -37,7 +37,8 @@ def build_dom_tree(img):
     pxcol_map = img.load()
     node_id = 0
 
-    # vertically stack a number of nodes = height of pixels and horizontally stack number of nodes = width of pixels
+    # vertically stack a number of nodes = height of pixels 
+    # and horizontally stack number of nodes = width of pixels
     root = DOMNode(node_id, 'vert', 0.0)
     for y in range(height):
         row_node = DOMNode(node_id, 'horiz', 0.0)
@@ -45,9 +46,9 @@ def build_dom_tree(img):
         for x in range(width):
             r, g, b = pxcol_map[x, y]
             node_id = color_to_id(r, g, b)
-            
+
             pixel_node = DOMNode(node_id, 'none', 0.0)
-            
+
             row_node.children.append(pixel_node)
         
         if row_node.children:
@@ -65,16 +66,16 @@ def main():
         # "but convention is that uppercase is constant" -- it's python and idc
         global NUM_DISCRETE_COLORS
         NUM_DISCRETE_COLORS=int(sys.argv[3])
-        print(f"Generating color file with {NUM_DISCRETE_COLORS ** 3} colors")
         generate_color_file(int(sys.argv[3]))
 
     path, outfilename = sys.argv[1], str(sys.argv[2])
     # load and convert to rgb
     img = Image.open(path).convert("RGB")
 
-    # build tree and print out 
+    # build tree and print out to file
     tree = build_dom_tree(img)
     with open(outfilename, "w") as f:
+        print(f"Generating tree file {outfilename}")
         f.write(str(tree))
 
 if __name__ == '__main__':
