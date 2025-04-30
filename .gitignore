@@ -1,2 +1,14 @@
+# macos
 .DS_Store
+
+# python
 __pycache__
+
+# local -- leave some example files in there
+images/*
+!images/cropped_qrcode.bmp
+!images/qrcode.bmp
+colors/*
+!colors/colors-512.txt
+output/*
+!output/qrcode.txt

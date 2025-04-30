@@ -2,7 +2,7 @@ from PIL import Image
 
 # this file was used in order to crop the qr code image because it was very large (>1.5MB)
 if __name__ == "__main__":
-    imgfile = "../images/frame.bmp"
+    imgfile = "../images/qrcode.bmp"
     img = Image.open(imgfile)
 
     # the amount of pixels to crop of each side
