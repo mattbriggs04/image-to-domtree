@@ -1,9 +1,11 @@
 from PIL import Image
+from colors_gen import generate_color_file
 import sys
 
 # The number of discrete possible colors in the range [0, 255]
-# For example, if the range is 8, these colors are:
+# For example, if the range is 4, the colors would be [0, 85, 170, 255]
 NUM_DISCRETE_COLORS=8 
+
 class DOMNode:
     def __init__(self, id, layout_dir, margin=0.0):
         self.id = id
@@ -54,11 +56,18 @@ def build_dom_tree(img):
 
 def main():
     # parse args
-    if len(sys.argv) != 3:
-        print("Usage: python3 parser.py <bmpfile> <outfile>")
+    if len(sys.argv) not in (3, 4):
+        print("Usage: python3 parser.py <bmp file> <output file> <?num_discrete for color file>")
         sys.exit(1)
-    path, outfilename = sys.argv[1], str(sys.argv[2])
+    
+    if len(sys.argv) == 4:
+        # "but convention is that uppercase is constant" -- shush, it's python and idc
+        global NUM_DISCRETE_COLORS
+        NUM_DISCRETE_COLORS=int(sys.argv[3])
+        print(f"Generating color file with {NUM_DISCRETE_COLORS ** 3} colors")
+        generate_color_file(int(sys.argv[3]))
 
+    path, outfilename = sys.argv[1], str(sys.argv[2])
     # load and convert to rgb
     img = Image.open(path).convert("RGB")
 
