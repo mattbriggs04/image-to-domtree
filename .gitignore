@@ -8,6 +8,7 @@ __pycache__
 images/*
 !images/cropped_qrcode.bmp
 !images/qrcode.bmp
+!images/rainbow.jpeg
 colors/*
 !colors/colors-512.txt
 output/*
