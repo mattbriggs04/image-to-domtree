@@ -15,36 +15,36 @@ class DOMNode:
         s += ")"
         return s
 
+def build_color_map():
+    cols = []
+    for col in range(8):
+        cols.append(round(col * 255 / 7))
+    return cols
+
+def nearest_idx(col):
+    return round(col * 7 / 255)
+
+def color_to_id(r, g, b):
+    r_id = nearest_idx(r)
+    g_id = nearest_idx(g)
+    b_id = nearest_idx(b)
+    return b_id * 64 + g_id * 8 + r_id
+
 def build_dom_tree(img):
     width, height = img.size
-    black_threshold = 255 // 2
+    print(f"Processing image of size {width}x{height} px")
     pxcol_map = img.load()
     node_id = 0
-    odd_id = 1
-    even_id = 0
 
     # vertically stack a number of nodes = height of pixels and horizontally stack number of nodes = width of pixels
-    root = DOMNode(even_id, 'vert', 0.0)
-    even_id += 2
+    root = DOMNode(node_id, 'vert', 0.0)
     for y in range(height):
-        row_node = DOMNode(odd_id, 'horiz', 0.0)
-        odd_id += 2
-        x = 0
+        row_node = DOMNode(node_id, 'horiz', 0.0)
 
-        while x < width:
-            is_black = pxcol_map[x, y] < black_threshold
-            if is_black:
-                node_id = odd_id
-                odd_id += 2
-            else:
-                node_id = even_id
-                even_id += 2
-
-            # this does not work for concatening nodes together for obvious reasons (layout does not know where to place gap)
-            # while x < width and (pxcol_map[x, y] < black_threshold) == is_black:
-            #     x += 1
+        for x in range(width):
+            r, g, b = pxcol_map[x, y]
+            node_id = color_to_id(r, g, b)
             
-            x += 1
             pixel_node = DOMNode(node_id, 'none', 0.0)
             
             row_node.children.append(pixel_node)
@@ -61,8 +61,8 @@ def main():
         sys.exit(1)
     path, outfilename = sys.argv[1], str(sys.argv[2])
 
-    # load and convert to grayscale
-    img = Image.open(path).convert('L')
+    # load and convert to rgb
+    img = Image.open(path).convert("RGB")
 
     # build tree and print out 
     tree = build_dom_tree(img)
