@@ -14,7 +14,7 @@ class DOMNode:
         self.children = []
 
     def __str__(self):
-        # margin should always be 0, .0f is used in order to save the 3 bytes from the ".00" (optimuhzationzz)
+        # margin should always be 0, .0f is used in order to save the 3 bytes from the ".00" (actually a big optimization ngl)
         s = f"({self.id} {self.layout_dir} {self.margin:.0f}" 
         for child in self.children:
             s += " " + str(child) # recursion baby
