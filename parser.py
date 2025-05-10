@@ -3,7 +3,7 @@ from colors_gen import generate_color_file
 import sys
 
 # The number of discrete possible colors in the range [0, 255]
-# For example, if the range is 4, the colors would be [0, 85, 170, 255]
+# For example, if the num is 4, the colors would be {0, 85, 170, 255} for red, green, and blue
 NUM_DISCRETE_COLORS=8
 
 class DOMNode:
